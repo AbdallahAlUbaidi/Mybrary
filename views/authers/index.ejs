@@ -1,0 +1,10 @@
+<h2>Search Authers</h2>
+<form action="/authers" method="get">
+    <label for="name">Name</label>
+    <input type="text" name="name" value="<%= searchOptions.name %> ">
+    <button type="submit">Search</button>
+</form>
+<br>
+<%  authers.forEach(auther=>{ %> 
+    <div><%= auther.name %> </div>
+<% })%>
