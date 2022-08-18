@@ -1,16 +1,16 @@
 const express = require("express")
-const Auther = require('../models/auther')
+const Author = require('../models/author')
 const router = express.Router();
-//All Authers Route
+//All Authors Route
 router.get('/' , async ( req , res )=>
 {   
     let searchOptions = {}
     try{
         if(req.query.name != null && req.query.name !== '')
             searchOptions.name = new RegExp(req.query.name , 'i')
-        const authers = await Auther.find(searchOptions)
-        res.render('authers/index' , {
-            authers:authers ,
+        const authors = await Author.find(searchOptions)
+        res.render('authors/index' , {
+            authors:authors ,
             searchOptions:req.query
         })
     }
@@ -20,28 +20,28 @@ router.get('/' , async ( req , res )=>
     }
 })
 
-//Create Auther form
+//Create Author form
 router.get('/new' , (req,res)=>
 {
-    res.render('authers/new' , {auther:new Auther()})
+    res.render('authors/new' , {author:new Author()})
 })
 
-//Create Auther
+//Create Author
 router.post('/' , async (req,res)=>
 {
-    const auther = new Auther({
+    const author = new Author({
         name:req.body.name                   
     })
     try{
-        const newAuther = await auther.save()
-        res.status(200).redirect("/authers")
-        // res.status(200).redirect(`/authers/${newAuther.id}`)
+        const newAuthor = await author.save()
+        res.status(200).redirect("/authors")
+        // res.status(200).redirect(`/authors/${newAuthor.id}`)
     }
     catch(error)
     {
         console.log(error)
-        res.status(500).render('authers/new' , {auther: auther , 
-        errorMessage:"Could not create new Auther"})
+        res.status(500).render('authors/new' , {author: author , 
+        errorMessage:"Could not create new Author"})
     }
 })
 

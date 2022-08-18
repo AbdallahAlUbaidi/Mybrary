@@ -8,8 +8,10 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const app = express()
 
+//Importing Routers Modules
 const indexRouter = require('./routes/index')
-const autherRouter = require('./routes/authers')
+const authorRouter = require('./routes/authors')
+const bookRouter = require('./routes/books')
 
 
 app.set('view engine' , 'ejs')
@@ -25,9 +27,10 @@ mongoose.connect(process.env.DATABASE_URL ,
     ()=> { console.log("connected successfully") } ,
     (e)=>{ console.error(e);})
 
-
+//Using Routers
 app.use('/' , indexRouter)
-app.use('/authers' , autherRouter)
+app.use('/authors' , authorRouter)
+app.use('/books' , bookRouter)
 
 
 
