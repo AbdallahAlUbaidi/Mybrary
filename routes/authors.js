@@ -1,5 +1,6 @@
 const express = require("express")
-const Author = require('../models/author')
+const Author = require('../models/author');
+const Book = require("../models/book");
 const router = express.Router();
 //All Authors Route
 router.get('/' , async ( req , res )=>
@@ -34,14 +35,93 @@ router.post('/' , async (req,res)=>
     })
     try{
         const newAuthor = await author.save()
-        res.status(200).redirect("/authors")
-        // res.status(200).redirect(`/authors/${newAuthor.id}`)
+        res.status(200).redirect(`/authors/${newAuthor.id}`)
     }
     catch(error)
     {
         console.log(error)
         res.status(500).render('authors/new' , {author: author , 
         errorMessage:"Could not create new Author"})
+    }
+})
+
+
+router.get('/:id' , async (req , res)=>
+{
+   try
+   {
+        const author = await Author.findById(req.params.id)
+        const books = await Book.find({author:author.id}).limit(6).exec();
+        res.render('authors/show' , {author:author , booksByAuthor:books})
+   }
+   catch(error)
+   {
+        console.log(error)
+        res.redirect('/')
+   }
+})
+
+router.get('/:id/edit' , async (req , res)=>
+{
+    let author;
+    try{
+       author = await Author.findById(req.params.id)
+        res.render('authors/edit' , {author:author})
+    }
+    catch(error)
+    {
+        console.log(error)
+        res.redirect('/edit')
+    }
+})
+
+router.put('/:id' , async (req , res)=>
+{
+    try{
+        const author = await Author.findById(req.params.id)
+        author.name = req.body.name;
+        await author.save()
+        res.status(200).redirect(`/authors/${req.params.id}`)
+    }
+    catch(error)
+    {
+        if(author == null)
+        {
+            console.log(`Auhor not Found \n[ERROR!]:${error}`)
+            res.status(500).render('/')
+        }
+        else 
+        {
+            console.log(`Auhor Update Faild \n[ERROR!]:${error}`)
+            res.status(500).render('authors/edit' , {author: author , 
+            errorMessage:`Could not Update  Author with ID : ${req.params.id}`})
+        }
+
+    }
+})
+
+router.delete('/:id' , async (req , res)=>
+{
+    let author
+    try{
+        author = await Author.findById(req.params.id)
+        console.log(author)
+        await author.remove()
+        res.status(200).redirect("/authors")
+    }
+    catch(error)
+    {
+        if(author == null)
+        {
+            console.log(`Auhor not Found \n[ERROR!]:${error}`)
+            res.status(500).render('/')
+        }
+        else 
+        {
+            console.log(error)
+            res.redirect(`/authors/${req.params.id}`)
+        }
+
     }
 })
 
