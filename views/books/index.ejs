@@ -1,35 +1,40 @@
 <h2 class="page-header">Search Books</h2>
 
 <form action="/books" method="GET">
-    <div>
-        <label for="title">Title</label>
-        <% if(searchOptions.title != null && searchOptions.title != ''){ %> 
-            <input type="text" name="title" value="<%= searchOptions.title %>">
-        <% } else {%>
-            <input type="text" name="title">
-            <% } %>  
+    <div class="form-row">
+        <div class="form-item">
+            <label for="title">Title</label>
+            <% if(searchOptions.title != null && searchOptions.title != ''){ %> 
+                <input type="text" name="title" value="<%= searchOptions.title %>">
+            <% } else {%>
+                <input type="text" name="title">
+                <% } %>  
+        </div>
     </div>
 
-    <div>
-        <label for="publishedBefore">Published Before</label>
-        <% if(searchOptions.publishedBefore != null && searchOptions.publishedBefore != ''){ %> 
-            <input type="date" name="publishedBefore" value="<%= searchOptions.publishedBefore %>">
-        <% } else {%>
-            <input type="date" name="publishedBefore">
-        <% } %> 
+    <div class="form-row">
+        <div class="form-item">
+            <label for="publishedBefore">Published Before</label>
+            <% if(searchOptions.publishedBefore != null && searchOptions.publishedBefore != ''){ %> 
+                <input type="date" name="publishedBefore" value="<%= searchOptions.publishedBefore %>">
+            <% } else {%>
+                <input type="date" name="publishedBefore">
+            <% } %> 
+        </div>
+
+        <div class="form-item">
+            <label for="publishedAfter">Published After</label>
+            <% if(searchOptions.publishedAfter != null && searchOptions.publishedAfter != ''){ %> 
+                <input type="date" name="publishedAfter" value="<%= searchOptions.publishedAfter%>">
+            <% } else {%>
+                <input type="date" name="publishedAfter">
+            <% } %> 
+        </div>
     </div>
 
-    
-    <div>
-        <label for="publishedAfter">Published After</label>
-        <% if(searchOptions.publishedAfter != null && searchOptions.publishedAfter != ''){ %> 
-            <input type="date" name="publishedAfter" value="<%= searchOptions.publishedAfter%>">
-        <% } else {%>
-            <input type="date" name="publishedAfter">
-        <% } %> 
+    <div class="form-row form-row-end">
+        <button class="btn btn-primary" type="submit">Search</button>
     </div>
-
-    <button class="btn btn-primary" type="submit">Search</button>
 
 </form>
 <div>
